@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="NoSqlConfiguration">
+    <option name="shellPathByDatabaseVendor">
+      <map>
+        <entry key="DatabaseVendor{name='RedisDB'}" value="C:\Program Files\Redis-x64-3.0.504\redis-cli.exe" />
+      </map>
+    </option>
+  </component>
+</project>

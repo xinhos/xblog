@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <!-- 打印DAO包的SQL日志 -->
+    <logger name="cn.xinhos.dao.mapper" level="DEBUG" />
+</configuration>

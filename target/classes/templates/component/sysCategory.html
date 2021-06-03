@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="../css/reset.css">
+        <link rel="stylesheet" href="../css/sysCategory.css">
+        <script src="../js/jquery-3.5.1.min.js"></script>
+        <script src="../js/sysCategory.js"></script>
+        <style>
+        </style>
+    </head>
+    <body>
+        <h2 style="font-weight: 600;line-height: 2;font-size: 26px;margin: 10px;">标签与分类管理</h2>
+        <div style="display: flex;margin-top: 7px;">
+            <div class="categoryMng">
+                <div class="wrap">
+                    <div class="box left">
+                        <div class="f-title" style="border-radius: 7px 0 0 0px;"><span>分区</span><span>专题数</span></div>
+                        <ul class="list">
+                            <li class="item categoryItem" xId="1001" xType="cate" onclick=""><span class="title">技术</span><span class="subNum">3</span></li>
+                            <li class="item addItem" onclick=""><span class="addItemIcon">+</span></li>
+                        </ul>
+                    </div>
+                    <div class="box right">
+                        <div class="f-title" style="border-radius: 0px 7px 0 0px;"><span>专题</span><span>文章数</span></div>
+                        <ul class="list" id="topicList">
+                            <li class="item categoryItem" xId="2001" xType="topic" ><span class="title">Java学习的101门课程</span><span class="subNum">101</span></li>
+                            <li class="item categoryItem" xId="2002" xType="topic" ><span class="title">Java学习的101门课程</span><span class="subNum">101</span></li>
+                            <li class="item categoryItem" xId="2003" xType="topic" ><span class="title">Java学习的101门课程</span><span class="subNum">101</span></li>
+                            <li class="item categoryItem" xId="2004" xType="topic" ><span class="title">Java学习的101门课程</span><span class="subNum">101</span></li>
+                            <li class="item categoryItem" xId="2005" xType="topic" ><span class="title">Java学习的101门课程</span><span class="subNum">101</span></li>
+                            <li class="item addItem" onclick=""><span class="addItemIcon">+</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="font-size: 13px; color: #ABABAB; margin-top: 10px; cursor: default;">（右键修改/删除/查看详情）</p>
+                <ul class="menu" style="position:fixed; display: none;" id="menu"></ul>
+            </div>
+            <div class="markMng">
+                <div class="box markBox">
+                    <div class="f-title" style="border-radius: 7px 0 0 0px;"><span>标签名</span><span>文章数</span></div>
+                    <ul class="list">
+                        <li class="item categoryItem" xId="1001" xType="mark" onclick=""><span class="title">java</span><span class="subNum">3</span></li>
+                        <li class="item addItem" onclick=""><span class="addItemIcon">+</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="infoBox" id="infoBox" style="display: none;">
+            <div id="insertContent" class="insertContent"></div>
+            <div id="btnList"></div>
+        </div>
+    </body>
+    <script src="../js/sysCategory.js"></script>
+</html>
