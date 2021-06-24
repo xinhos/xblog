@@ -22,6 +22,11 @@ import java.util.List;
     private Integer mainPageArticleSize;
     private List<String> codes;
     private List<String> titles;
+    private String adminName;
+    private String password;
+    private Integer userId;
+    private String secretKey;
+    private Integer keepLoginNum;
 
     public SiteInfoDto(SiteProperty siteProperty) {
         this.userName = siteProperty.getUserName();
@@ -30,5 +35,10 @@ import java.util.List;
         this.mainPageArticleSize = siteProperty.getMainPageArticleSize();
         this.codes = siteProperty.getCodes();
         this.titles = siteProperty.getTitles();
+        this.adminName = siteProperty.getAdminName();
+        this.password = siteProperty.getPassword();
+        this.userId = siteProperty.getUserId();
+        this.secretKey = siteProperty.getSecretKey();
+        this.keepLoginNum = siteProperty.getKeepLoginNum();
     }
 }

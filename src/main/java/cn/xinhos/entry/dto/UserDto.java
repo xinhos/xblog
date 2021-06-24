@@ -1,4 +1,7 @@
 package cn.xinhos.entry.dto;
 
-public class UserDto {
+import cn.xinhos.entry.User;
+
+public class UserDto extends User {
+
 }

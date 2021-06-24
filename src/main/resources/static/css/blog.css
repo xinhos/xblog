@@ -329,6 +329,10 @@ input:checked + .slider:before {
     display: inline-block;
     margin: 0 10px;
 }
+.shortBlogLink {
+    color: #777777;
+    text-decoration: none;
+}
 .shortBlogWrap .spinner {
     margin: 0 auto;
     margin-top: 30px;
@@ -484,6 +488,7 @@ input:checked + .slider:before {
 .blogMark {
     margin-right: 10px;
     cursor: pointer;
+    color: #777;
 }
 .blogMark:last-child {
     margin-right: 0px;
@@ -597,4 +602,39 @@ input:checked + .slider:before {
 .nextArticle {
     align-items: center;
     flex-direction: row-reverse;
+}
+
+.mkWrap pre code{
+    display: block;
+    overflow-x: auto;
+    background: #e9ecef;
+    color: #545454;
+    padding: .5em
+}
+
+.mkWrap code{
+    display: inline;
+    padding: 0 4px;
+    margin: 0 2px;
+    border-radius: 4px;
+    overflow-x: auto;
+    background: #e9ecef;
+    color: #545454;
+}
+
+.mkWrap pre code::-webkit-scrollbar {/*滚动条整体样式*/
+    width: 1px;
+    height: 5px;
+}
+
+.mkWrap pre code::-webkit-scrollbar-thumb { /*滚动条里面小方块*/
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background: #535353;
+}
+
+.mkWrap pre code::-webkit-scrollbar-track { /*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    background: #EDEDED;;
 }

@@ -5,8 +5,8 @@ import lombok.*;
 import java.io.Serializable;
 import java.sql.Date;
 
-@Data
-public class Blog {
+@NoArgsConstructor @AllArgsConstructor
+@Data public class Blog {
     private Integer id;
     private Integer categoryId;
     private Integer citeId;

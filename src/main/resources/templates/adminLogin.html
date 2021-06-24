@@ -1,43 +1,177 @@
-<!DOCTYPE html>
-<html class="sLogin-html" lang="en">
+<html xmlns:th="https://www.thymeleaf.org/" class="sLogin-html">
 <head>
     <meta charset="UTF-8">
-    <title>后台登陆</title>
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/sPublic.css">
-    <link rel="stylesheet" href="css/font-awesome.css">
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/md5.js"></script>
-    <script src="js/public.js"></script>
-    <script src="js/sPublic.js"></script>
+    <title>xblog后台登陆</title>
+    <link rel="stylesheet" href="/css/reset.css">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/js/md5.js"></script>
+    <style>
+        .sLogin-html{
+            width:100%;
+            height: 100%;
+            background: url('/img/adminLoginBK.jpg') no-repeat;
+            background-size: cover;
+            overflow: hidden;
+        }
+        .sLogin-body{
+            width:100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.37);
+            padding-top:150px;
+        }
+        .slogin-main{
+            width: 420px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.65);
+            margin:0 auto;
+            box-sizing: border-box;
+            padding: 40px 50px 40px 50px;
+        }
+        .info{
+            width:100%;
+            margin-bottom: 35px;
+            position: relative;
+        }
+        .login-box h3{
+            font-size: 28px;
+        }
+        .warn-message{
+            display: none;
+            position: absolute;
+            bottom: -25px;
+            font-size: 12px;
+            color: red;
+            width: 100%;
+            align-items: center;
+        }
+        .input-label{
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .username,.password{
+            width:100%;
+            height: 40px;
+            text-indent: 45px;
+            font-size:14px;
+            border: 1px solid #cccccc;
+            padding:0;
+        }
+        .username:focus,.password:focus{
+            border: 1px solid #1ab5ff;
+        }
+        .user-icon,.lock-icon{
+            position: absolute;
+            display: inline-block;
+            width: 38px;
+            height: 39px;
+            top:0.5px;
+            left:1px;
+
+            background: #ccc;
+            font-size:20px !important;
+            text-align: center;
+            line-height: 39px !important;
+            color: #fff;
+        }
+        .button{
+            display: block;
+            background: #2db0ff;
+            border-radius: 3px;
+            border: none;
+            color: #fff;
+            width: 100%;
+            height:40px;
+            font-size: 20px;
+        }
+        .button:hover{
+            background: #1ab5ff;
+        }
+        .back-blue{
+            background: #1ab5ff;
+        }
+        .input-label:last-child{
+            margin-bottom: 15px;
+        }
+        .keepLogin{
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-direction: row-reverse;
+        }
+        .keepLoginLabel{
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
 </head>
 <body class="sLogin-body">
     <main class="slogin-main">
         <form action="" id="login-form">
             <div class="login-box">
                 <div class="info">
-                    <h3 id="info-h3">云课堂后台登陆</h3>
+                    <h3 id="info-h3">xblog后台登陆</h3>
                     <p id="warn-message" class="warn-message">登陆密码不正确</p>
                 </div>
                 <div class="input-label">
                     <span class="fa fa-user-o user-icon" id="user-icon"></span>
-                    <input type="text" class="username" id="username"
+                    <input type="text" class="username" id="username" name="name"
                            onfocus="javascript:$('#user-icon').addClass('back-blue')"
-                           onblur="javascript:$('#user-icon').removeClass('back-blue')"
-                    >
+                           onblur="javascript:$('#user-icon').removeClass('back-blue')" />
                 </div>
                 <div class="input-label">
                     <span class="fa fa-lock lock-icon" id="lock-icon"></span>
                     <input type="password" class="password" id="passwordTemp"
                            onfocus="javascript:$('#lock-icon').addClass('back-blue')"
-                           onblur="javascript:$('#lock-icon').removeClass('back-blue')"
-                    >
+                           onblur="javascript:$('#lock-icon').removeClass('back-blue')" />
+                </div>
+                <div class="keepLogin">
+                    <label for="keepLogin" class="keepLoginLabel">30天内免登录</label>
+                    <input type="checkbox" id="keepLogin" name="keepLogin" value="1" />
                 </div>
                 <button type="button" class="button" onclick="login()">登录</button>
-                <!--隐藏域-->
-                <input type="hidden" class="password" id="password">
+                <input type="hidden" class="password" id="password" name="password">
             </div>
         </form>
     </main>
+    <input type="hidden" id="msgCode" th:value="${code}">
 </body>
+<script>
+    function login() {
+        var username = $("#username").val();
+        var passwordTemp = $("#passwordTemp").val();
+        $("#password").val($.md5(passwordTemp));
+        if (username == "" || username == null || passwordTemp == "" || passwordTemp == null){
+            $("#warn-message").html("用户名或密码不能为空").css("display","block");
+            return;
+        }
+        var loginForm = $("#login-form");
+        var url = "/admin/login";
+        loginForm.attr({
+            "action": url,
+            "method": "post"
+        });
+        loginForm.submit();
+    }
+
+    var msgTable = {
+        "M0001": "用户名或密码错误，请重新输入",
+        "M0002": "您的登录已过期，请重新登录"
+    }
+
+    function initPage() {
+        let msgCode = $("#msgCode").val();
+        let msgContent = msgTable[msgCode];
+        let token = window.localStorage.getItem("token");
+
+        if (msgCode != "") {
+            $("#warn-message").html(msgContent).css("display","block");
+        }
+        $("#token").val(token);
+    }
+
+    $(function (){
+        initPage();
+    })
+</script>
 </html>

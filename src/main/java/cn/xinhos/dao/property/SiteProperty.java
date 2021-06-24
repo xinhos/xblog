@@ -39,5 +39,20 @@ import java.util.List;
 
     @Value("#{'${website.singlePages.titles}'.split(',')}")
     private List<String> titles;
+
+    @Value("${adminer.name}")
+    private String adminName;
+
+    @Value("${adminer.password}")
+    private String password;
+
+    @Value("${adminer.userId}")
+    private Integer userId;
+
+    @Value("${adminer.secretKey}")
+    private String secretKey;
+
+    @Value("${adminer.keepLoginNum}")
+    private Integer keepLoginNum;
 }
 

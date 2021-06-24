@@ -7,6 +7,7 @@ import cn.xinhos.dao.mapper.BlogMapper;
 import cn.xinhos.entry.dto.PageInfoDto;
 import cn.xinhos.service.BlogService;
 import cn.xinhos.util.CONS;
+import cn.xinhos.util.FileHelper;
 import cn.xinhos.util.RedisName;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +31,7 @@ public class BlogServiceImpl implements BlogService {
     @Resource private SiteProperty siteProperty;
     @Resource private BlogMapper blogMapper;
     @Resource private RedisTemplate<String, Object> redisTemplate;
+    @Resource private FileHelper fileHelper;
     @Value("${XBlog.articleDir}") private String articleDir;
 
     /* 获取首页推荐文章
@@ -143,17 +145,19 @@ public class BlogServiceImpl implements BlogService {
         return new PageInfoDto(dataSize, pageSize, targetPage, pageNum);
     }
 
-    /* 读取博客文件内容，转成字符串返回 */
+    /* 读取博客文件内容，使用Base64编码后并返回 */
     @Override public String getBlogContent(BlogDto blogDto) {
         String path = Paths.get(articleDir, blogDto.getCategoryId().toString(),
                 blogDto.getFileName()).toString();
-
-        return "";
+        return FileHelper.encode(fileHelper.readFileBIO(path));
     }
 
     /* 根据ID返回博客DTO */
     @Override public BlogDto getBlog(Integer blogId) {
-        return new BlogDto().reset(blogMapper.selectBlogById(blogId));
+        BlogDto result = new BlogDto();
+        result.reset(blogMapper.selectBlogById(blogId));
+        result.setMarks(blogMapper.selectMarkByBlogID(blogId));
+        return result;
     }
 
     private List<BlogDto> selectShortBlogDtoByCategoryId(int categoryId, int begin, int pageSize) {

@@ -1,21 +1,23 @@
 <html xmlns:th="https://www.thymeleaf.org/">
     <head>
+        <title>xblog</title>
         <link rel="stylesheet" href="/css/reset.css">
         <link rel="stylesheet" href="/css/blog.css">
         <link rel="stylesheet" href="/css/markdown.css">
-        <link rel="stylesheet" href="/css/highlight-default.css">
-        <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-        <script src="/js/blog.js"></script>
+        <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.3.2/styles/default.min.css" rel="stylesheet">
+        <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdn.bootcdn.net/ajax/libs/marked/2.0.3/marked.min.js"></script>
         <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.0-alpha1/highlight.min.js"></script>
+        <script src="/js/common.js"></script>
+        <script src="/js/blog.js"></script>
     </head>
     <body class="page" style="background-color: #EEE;">
         <header class="s1">
             <div class="userHeaderWrap">
                 <div class="userHeader">
                     <a href="">
-                        <img th:src="img/[[${siteInfo.userHeader}]]" alt="" class="userHeaderImg">
+                        <img th:src="'/img/' + ${siteInfo.userHeader}" alt="" class="userHeaderImg">
                     </a>
                 </div>
             </div>
@@ -24,6 +26,7 @@
             <ul class="notebookList" id="notebookList">
                 <li th:each="category: ${categorys}">
                     <span th:onclick="toggleCategory([[${category.id}]], [[${category.name}]])"
+                          th:id="'notebook_' + ${category.id}"
                           th:text="${category.name}" class="notebook">分栏</span>
                 </li>
             </ul>
@@ -78,7 +81,7 @@
         <section class="s3">
             <div class="contentWrap" id="contentWrap">
                 <div class="blog" th:each="blog: ${blogs}">
-                    <h2 class="blogTitle"><a th:href="/blog/article/[[${blog.id}]]" th:text="${blog.title}">博客标题</a></h2>
+                    <h2 class="blogTitle"><a th:href="'/blog/article/' + ${blog.id}" th:text="${blog.title}">博客标题</a></h2>
                     <article class="blogBody mkWrap" th:text="${blog.abstracts}">博客摘要</article>
                     <span class="splitLine"></span>
                     <div class="blogFooter">

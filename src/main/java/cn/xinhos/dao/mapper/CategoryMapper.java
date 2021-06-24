@@ -8,9 +8,8 @@ import java.util.List;
 
 @Mapper @Repository
 public interface CategoryMapper {
-    /*
-     * 查询所有分类（单用户下查询全部目录，多用户时根据用户id来查找）
-     */
+
+    /* 查询所有分类（单用户下查询全部目录，多用户时根据用户id来查找） */
     @Results(id = "category", value = {
             @Result(property = "id",         column = "id"),
             @Result(property = "name",       column = "name"),

@@ -10,6 +10,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 import java.io.*;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /*
  * @ClassName: DaoTest
@@ -59,6 +61,29 @@ public class DaoTest {
                 latch.countDown();
             });
             thread.start();
+        }
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        long end = System.currentTimeMillis();
+        System.out.println(end - start);
+    }
+
+    private ExecutorService executorService = Executors.newCachedThreadPool();
+
+    @Test public void readMult2() {
+        long start = System.currentTimeMillis();
+        String path1 = "C:\\Users\\xinhos\\OneDrive\\桌面\\test\\main.md";
+        CountDownLatch latch = new CountDownLatch(100);
+        for (int i = 0; i < 100; i++) {
+            final int tmpi = i;
+            executorService.execute(() -> {
+                System.out.println(tmpi);
+                System.out.println(read(path1));;
+                latch.countDown();
+            });
         }
         try {
             latch.await();

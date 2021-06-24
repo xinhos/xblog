@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
 import java.util.List;
 
 @NoArgsConstructor @AllArgsConstructor
@@ -41,5 +40,12 @@ import java.util.List;
         this.setVisitNum(aBlog.getVisitNum());
         this.setCommentNum(aBlog.getCommentNum());
         this.setState(aBlog.getState());
+    }
+
+    @Override
+    public String toString() {
+        return "BlogDto {" +
+                "marks=" + marks +
+                "} => " + super.toString();
     }
 }

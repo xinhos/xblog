@@ -51,26 +51,33 @@ function renderShortBlogList(data) {
         let title = blogs[i]['title'];
         let date = blogs[i]['publishDate'];
         let labelHtml = "";
+        let blogURL = `/blog/article/${blogs[i]['id']}`
         let labelArray = blogs[i]['marks'];
-        for (let j = 0; j < labelArray.length; j++) {
-            labelHtml += `<li>#${labelArray[j]}</li>`;
+
+        if (labelArray.length > 0) {
+            labelHtml = `<li><i class="fa fa-tags"></i></li>`;
+            for (let j = 0; j < labelArray.length; j++) {
+                labelHtml += `<li>#${labelArray[j]}</li>`;
+            }
         }
 
         let pattern = `
             <li class="shortBlog">
-                <div class="shortBlogTitleWrap">
-                    <span class="fa fa-quote-left shortBlogTitleIcon"></span>
-                    <span class="shortBlogTitle">${title}</span>
-                </div>
-                <div class="shortBlogBodyWrap">
-                    <span class="shortBlogData">
-                        <span class="fa fa-calendar"></span>
-                        <span class="date">${date}</span>
-                    </span>
-                    <ul class="shortBlogMarkWrap">
-                        <li><i class="fa fa-tags"></i></li>${labelHtml}
-                    </ul>
-                </div>
+                <a href=${blogURL} class="shortBlogLink">
+                    <div class="shortBlogTitleWrap">
+                        <span class="fa fa-quote-left shortBlogTitleIcon"></span>
+                        <span class="shortBlogTitle">${title}</span>
+                    </div>
+                    <div class="shortBlogBodyWrap">
+                        <span class="shortBlogData">
+                            <span class="fa fa-calendar"></span>
+                            <span class="date">${date}</span>
+                        </span>
+                        <ul class="shortBlogMarkWrap">
+                            ${labelHtml}
+                        </ul>
+                    </div>
+                </a>
             </li>`
 
         shortBlogWrap.append(pattern);
@@ -105,7 +112,7 @@ function toggleCategory(categoryId, title) {
     // 必须发起请求
     if (s2Flag.val() != 'close' && categoryFlag.val() != categoryId) {
         $.ajax({
-            url: `category/${categoryId}/topic`,
+            url: `/category/${categoryId}/topic`,
             type: 'GET',
             dataType: 'json',
             success: (data) => {
@@ -151,22 +158,22 @@ function openCatagory(data, categoryId, categoryTitle) {
 
 function switchContentState(loadingState, msgState, contentState, curCategoryId) {
     // 重置s2子版块的状态
-    let loading = (loadingState)? "flex": "none";
-    let msg = (msgState)? "flex": "none";
-    let content = (contentState)? "flex": "none";
-    let lastPageId = msgState? "categoryAlertMsgWrap":
+    let loading = (loadingState)? "flex": "none";      // 是否处于加载状态
+    let msg = (msgState)? "flex": "none";              // 是否展示后端提示信息
+    let content = (contentState)? "flex": "none";      // 内容是否为空（即请成功）
+    let lastPageId = msgState? "categoryAlertMsgWrap": // 记录当前请求状态（若当前请求成功，则下次打开则直接渲染）
                         contentState? "categoryContent": "";
     $("#categoryLoadingIcon").css("display", loading);
     $("#categoryAlertMsgWrap").css("display", msg);
     $("#categoryContent").css("display", content);
-    // 置空ID标记
+    // 重置ID标记
     if (curCategoryId != "") {
         let categoryFlag = $("#curCategoryID");
         categoryFlag.val(curCategoryId);
     }
     if (lastPageId != "") $("#lastPage").val(lastPageId);
 
-    // 点击笔记名后上色
+    // 点击笔记后上色
     $("#notebookList li span").removeClass("curNotebook");
     if (curCategoryId != "") {
         $(`#notebook_${curCategoryId}`).addClass("curNotebook");
@@ -249,9 +256,7 @@ $(function() {
         smartLists: true,
         smartypants: false
     });
-
     hljs.initHighlightingOnLoad();
-
     marked.setOptions({
         highlight: function (code) {
             return hljs.highlightAuto(code).value;
@@ -261,7 +266,7 @@ $(function() {
     let blogBodys = $("article.blogBody");
     for (let i = 0; i < blogBodys.length; i++) {
         let curBlogDOM = blogBodys[i];
-        let articleHTML = marked(curBlogDOM.innerText.replace(/\\n/g, '\n'));
+        let articleHTML = marked(Base64.decode(curBlogDOM.innerText).replace(/\\n/g, '\n'));
         $(curBlogDOM).html(articleHTML);
     }
     // $("#notebook_1001").click();
